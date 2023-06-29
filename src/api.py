@@ -1,6 +1,6 @@
 import logging
 import re
-from irc_api.irc import IRC, History
+from irc import IRC, History
 from threading import Thread
 import time
 
