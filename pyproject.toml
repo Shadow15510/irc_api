@@ -15,6 +15,12 @@ classifiers = [
 	"License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
 	"Development Status :: 5 - Production/Stable",
 ]
+dynamic = [
+	"version",
+]
+
+[tool.setuptools.dynamic.version]
+attr = "irc_api.__init__.__version__"
 
 [project.urls]
 "Homepage" = "https://github.com/Shadow15510/irc_api"
