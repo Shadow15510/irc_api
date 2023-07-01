@@ -12,7 +12,6 @@ import re
 import socket
 import ssl
 
-from functools import wraps
 from queue import Queue
 from threading import Thread
 
@@ -24,8 +23,6 @@ class IRC:
     ----------
     connected : bool, public
         If the bot is connected to an IRC server or not.
-    callbacks : list, public
-        List of the registred callbacks.
 
     socket : ssl.SSLSocket, private
         The IRC's socket.
@@ -35,27 +32,20 @@ class IRC:
 
     Methods
     -------
-    start : NoneType, public
+    connexion : NoneType, public
         Starts the IRC layer and manage authentication.
-    run : NoneType, public
-        Mainloop, allows to handle public messages.
     send : NoneType, public
         Sends a message to a given channel.
     receive : Message, public
-        Same as ``run`` for private messages.
+        Receive a new raw message and return the processed message. 
     join : NoneType, public
         Allows to join a given channel.
-    on : function, public
-        Add a callback on a given message.
+    waitfor : str, public
+        Wait for a raw message that matches the given condition.
 
     handle : NoneType, private
         Handles the ping and store incoming messages into the inbox attribute.
-    send : NoneType, private
-        Send message to a target.
-    recv : str, private
-        Get the oldest incoming message and returns it.
-    waitfor : str, private
-        Wait for a raw message that matches the given condition.
+    
     """
     def __init__(self, host: str, port: int):
         """Initialize an IRC wrapper.
@@ -80,25 +70,38 @@ class IRC:
         self.__handler = Thread(target=self.__handle)
 
     # Public methods
-    def connexion(self, username: str, password: str, nick: str):
+    def connexion(self, nick: str, auth: tuple=()):
         """Start the IRC layer. Manage authentication as well.
 
         Parameters
         ----------
         nick : str
-            The username for login and nickname once connected.
-        password : str
-            The password for authentification.
+            The nickname used.
+        auth : tuple, optionnal
+            The tuple (username, password) for a SASL authentication. Leave empty if no SASL auth is
+            required.
         """
         self.__handler.start()
 
         self.send(f"USER {nick} * * :{nick}")
         self.send(f"NICK {nick}")
-        self.waitfor(lambda m: "NOTICE" in m and "/AUTH" in m)
-        self.send(f"AUTH {username}:{password}")
+        if auth:
+            self.waitfor(lambda m: "NOTICE" in m and "/AUTH" in m)
+            self.send(f"AUTH {username}:{password}")
+
         self.waitfor(lambda m: "You are now logged in" in m)
 
         self.connected = True
+
+    def send(self, raw: str):
+        """Wrap and encode raw message to send.
+
+        Parameters
+        ----------
+        raw : str
+            The raw message to send.
+        """
+        self.__socket.send(f"{raw}\r\n".encode())
 
     def receive(self):
         """Receive a private message.
@@ -125,16 +128,6 @@ class IRC:
         """
         self.send(f"JOIN {channel}")
         logging.info("joined %s", channel)
-
-    def send(self, raw: str):
-        """Wrap and encode raw message to send.
-
-        Parameters
-        ----------
-        raw : str
-            The raw message to send.
-        """
-        self.__socket.send(f"{raw}\r\n".encode())
 
     def waitfor(self, condition):
         """Wait for a raw message that matches the condition.
@@ -167,7 +160,7 @@ class IRC:
                 # Manage ping
                 if msg.startswith("PING"):
                     self.send(msg.replace("PING", "PONG"))
-                
+
                 # Or add a new message to inbox
                 elif len(msg):
                     self.__inbox.put(msg)
@@ -175,7 +168,30 @@ class IRC:
 
 
 class History:
+    """A custom queue to have access to the lastest messages.
+
+    Attributes
+    ----------
+    content : list, private
+        The content of the History.
+    limit : int, private
+        The maximum number of messages that the History stored.
+
+    Methods
+    -------
+    add : NoneType, public
+        Add an element to the History. If the History is full, the oldest message is deleted.
+    get : list, public
+        Returns the content of the History.
+    """
     def __init__(self, limit: int):
+        """Initialize the History.
+        
+        Parameters
+        ----------
+        limit : int
+            The maximum number of messages the History's instance can handle.
+        """
         self.__content = []
         if limit:
             self.__limit = limit
@@ -183,19 +199,29 @@ class History:
             self.__limit = 100
 
     def __len__(self):
+        """Returns the lenght of the History's instance."""
         return len(self.__content)
 
     def add(self, elmnt):
+        """Add a new element to the History's instance. If the History is full, the oldest message
+        is deleted.
+
+        Parameters
+        ----------
+        elmnt
+            The element to add.
+        """
         if len(self.__content) == self.__limit:
             self.__content.pop(0)
         self.__content.append(elmnt)
 
     def get(self):
+        """Returns the content of the History's instance."""
         return self.__content
 
 
 class Message:
-    """Parse the raw message in three fields : author, the channel, and text.
+    """Parse the raw message in three fields: the author, the channel and the text content.
     
     Attributes
     ----------
@@ -213,6 +239,13 @@ class Message:
         )
 
     def __init__(self, raw: str):
+        """Initialize and parse a new Message.
+
+        Parameters
+        ----------
+        raw : str
+            The raw received message.
+        """
         match = re.search(Message.pattern, raw)
         if match:
             self.author = match.group("author")
@@ -226,4 +259,5 @@ class Message:
             logging.warning("failed to parse %s into valid message", raw)
 
     def __str__(self):
+        """Convert the Message's instance into a human readable string."""
         return f"{self.author} to {self.to}: {self.text}"
