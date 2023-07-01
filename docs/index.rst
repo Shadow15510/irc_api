@@ -13,5 +13,9 @@ Content
 -------
 .. toctree::
     Home <self>
-    api <api>
+    bot <bot>
+    commands <commands>
+    history <history>
     irc <irc>
+    message <message>
+    

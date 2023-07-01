@@ -1,10 +1,9 @@
 .. toctree::
     :maxdepth: 4
     
-api
+irc
 ---
-.. automodule:: irc_api.api
+.. automodule:: irc_api.history
     :members:
     :undoc-members:
     :show-inheritance:
-
