@@ -1,8 +1,8 @@
 .. toctree::
     :maxdepth: 4
     
-irc
----
+History
+-------
 .. automodule:: irc_api.history
     :members:
     :undoc-members:

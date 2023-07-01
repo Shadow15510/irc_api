@@ -1,8 +1,8 @@
 .. toctree::
     :maxdepth: 4
     
-irc
----
+Message
+-------
 .. automodule:: irc_api.message
     :members:
     :undoc-members:
