@@ -1,5 +1,5 @@
 """Defines the decorators for bot commands."""
-from irc_api.bot import PREFIX
+from irc_api.bot import BotCommand, PREFIX
 
 def command(name: str, alias: tuple=(), desc: str=""):
     """Create a new bot's command. Note that's a decorator.
