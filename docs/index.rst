@@ -11,5 +11,4 @@ IRC API is a small API to make Python IRC bots. This API is based on decorators 
 
 .. toctree::
     Home <self>
-    irc <irc>
-    api <api>
+    API <modules>
