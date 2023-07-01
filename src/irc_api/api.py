@@ -31,12 +31,10 @@ def command(name: str, alias: tuple=(), desc: str=""):
     Examples
     --------
     For example, assuming the module was imported as follow: ``from irc_api import api``
-    You can make a command:
-    ``
-    @api.command(name="ping", desc="Answer 'pong' when the user enters 'ping'.")
-    def foo(bot, message):
-        bot.send(message.to, "pong")
-    ``
+    You can make a command::
+        @api.command(name="ping", desc="Answer 'pong' when the user enters 'ping'.")
+        def foo(bot, message):
+            bot.send(message.to, "pong")
     """
     if not alias or not name in alias:
         alias += (name,)
@@ -74,12 +72,10 @@ def on(event, desc: str=""):
     Examples
     --------
     Assuming the module was imported as follow: ``from irc_api import api``
-    You can make a new command:
-    ``
-    @api.on(lambda m: isinstance(re.match(r"(.*)(merci|merci beaucoup|thx|thanks|thank you)(.*)", m.text, re.IGNORECASE), re.Match))
-    def thanks(bot, message):
-        bot.send(message.to, f"You're welcome {message.author}! ;)")
-    ``
+    You can make a new command::
+        @api.on(lambda m: isinstance(re.match(r"(.*)(merci|merci beaucoup|thx|thanks|thank you)(.*)", m.text, re.IGNORECASE), re.Match))
+        def thanks(bot, message):
+            bot.send(message.to, f"You're welcome {message.author}! ;)")
     """
     def decorator(func_or_cmnd):
         if isinstance(func_or_cmnd, Command):
@@ -117,23 +113,20 @@ def channel(channel_name: str, desc: str=""):
     Examples
     --------
     Assuming the module was imported as follow: ``from irc_api import api``
-    If you want to react on every message on a specific channel, you can make a command like:
-    ``
-    @api.channel(channel_name="bot-test", desc="The bot will react on every message post on #bot-test")
-    def spam(bot, message):
-        bot.send("#bot-test", "This is MY channel.")
-    ``
+    If you want to react on every message on a specific channel, you can make a command like::
+        @api.channel(channel_name="bot-test", desc="The bot will react on every message post on #bot-test")
+        def spam(bot, message):
+            bot.send("#bot-test", "This is MY channel.")
 
-    You can also cumulate this decorator with ``@api.command``, ``@api.on`` and ``@api.user``:
-    ``
-    from random import choice
+    You can also cumulate this decorator with ``@api.command``, ``@api.on`` and ``@api.user``::
+        from random import choice
 
-    @api.channel(channel_name="bot-test") # note that the description given here isn't taken into account
-    @api.command(name="troll", desc="Some troll command")
-    def troll_bot(bot, message):
-        emotions = ("happy", "sad", "angry")
-        bot.send("#bot-test", f"*{choice(emotions)} troll's noises*")
-    ``
+        @api.channel(channel_name="bot-test") # note that the description given here isn't taken into account
+        @api.command(name="troll", desc="Some troll command")
+        def troll_bot(bot, message):
+            emotions = ("happy", "sad", "angry")
+            bot.send("#bot-test", f"*{choice(emotions)} troll's noises*")
+
     """
     def decorator(func_or_cmnd):
         if isinstance(func_or_cmnd, Command):
@@ -170,21 +163,18 @@ def user(user_name: str, desc: str=""):
 
     Examples
     --------
-    Assuming the module was imported as follow: ``from irc_api import api``
-    If you want to react on every message from a specific user, you can make a command like:
-    ``
-    @api.user(user_name="my_pseudo", desc="The bot will react on every message post by my_pseudo")
-    def spam(bot, message):
-        bot.send(message.to, "I subscribe to what my_pseudo said.")
-    ``
+    Assuming the module was imported as follow: ``from irc_api import api``.
+    If you want to react on every message from a specific user, you can make a command like::
+        @api.user(user_name="my_pseudo", desc="The bot will react on every message post by my_pseudo")
+        def spam(bot, message):
+            bot.send(message.to, "I subscribe to what my_pseudo said.")
 
-    You can also cumulate this decorator with ``@api.command``, ``@api.on`` and ``@api.channel``:
-    ``
-    @api.user(user_name="my_pseudo")
-    @api.command(name="test", desc="Some test command.")
-    def foo(bot, message):
-        bot.send(message.to, "Test received, my_pseudo.")
-    ``
+
+    You can also cumulate this decorator with ``@api.command``, ``@api.on`` and ``@api.channel``::
+        @api.user(user_name="my_pseudo")
+        @api.command(name="test", desc="Some test command.")
+        def foo(bot, message):
+            bot.send(message.to, "Test received, my_pseudo.")
     """
     def decorator(func_or_cmnd):
         if isinstance(func_or_cmnd, Command):
@@ -221,12 +211,10 @@ def every(time: float, desc=""):
     Examples
     --------
     Assuming the module was imported as follow: ``from irc_api import api``.
-    You can make a routine:
-    ``
-    @api.every(time=5, desc="This routine say 'hello' on #general every 5 seconds")
-    def spam(bot, message):
-        bot.send("#general", "Hello there!") # please don't do that x)
-    ``
+    You can make a routine::
+        @api.every(time=5, desc="This routine says 'hello' on #general every 5 seconds")
+        def spam(bot, message):
+            bot.send("#general", "Hello there!") # please don't do that (.><)'
     """
     def decorator(func):
         return Command(
@@ -308,7 +296,7 @@ class Bot:
             auth: tuple=(),
             channels: list=["#general"],
             prefix: str="",
-            limit: int=100,
+            limit: int=100,         
             *commands_modules,
         ):
         """Initialize the Bot instance.
@@ -331,15 +319,13 @@ class Bot:
         Examples
         --------
         Assuming the module was imported as follow: ``from irc_api import api``
-        You can create a bot:
-        ``
-        my_bot = api.Bot(
-                irc_params=(irc.exemple.com, 6697),
-                channels=["#general", "#bot-test"],
-                prefix="!",
-                cmnd_pack1, cmnd_pack2
-            )
-        ``
+        You can create a bot::
+            my_bot = api.Bot(
+                    irc_params=(irc.exemple.com, 6697),
+                    channels=["#general", "#bot-test"],
+                    prefix="!",
+                    cmnd_pack1, cmnd_pack2
+                )
         """
         global PREFIX
         PREFIX = prefix
@@ -381,7 +367,7 @@ class Bot:
                     if not False in [event(message) for event in callback.events]:
                         logging.info("matched %s", callback.name)
 
-                        # others command's types
+                        # others command types
                         if callback.cmnd_type == 0:
                             callback(message)
 
@@ -551,7 +537,7 @@ def check_args(func, *input_args):
     -------
     converted_args : list
         The list of the arguments with the right type. The surplus arguments are ignored.
-    """
+    """ 
 
     # gets the defaults values given in arguments
     defaults = getattr(func, "__defaults__")
