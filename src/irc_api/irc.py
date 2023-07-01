@@ -1,19 +1,13 @@
-"""
-irc (IRC API)
-=============
-
-Description
------------
-Manage the IRC layer.
-"""
+"""Manage the IRC layer."""
 
 import logging
-import re
 import socket
 import ssl
 
 from queue import Queue
 from threading import Thread
+
+from irc_api.message import Message
 
 
 class IRC:
@@ -87,7 +81,7 @@ class IRC:
         self.send(f"NICK {nick}")
         if auth:
             self.waitfor(lambda m: "NOTICE" in m and "/AUTH" in m)
-            self.send(f"AUTH {username}:{password}")
+            self.send(f"AUTH {auth[0]}:{auth[1]}")
 
         self.waitfor(lambda m: "You are now logged in" in m)
 
@@ -165,99 +159,3 @@ class IRC:
                 elif len(msg):
                     self.__inbox.put(msg)
                     logging.debug("received %s", msg)
-
-
-class History:
-    """A custom queue to have access to the lastest messages.
-
-    Attributes
-    ----------
-    content : list, private
-        The content of the History.
-    limit : int, private
-        The maximum number of messages that the History stored.
-
-    Methods
-    -------
-    add : NoneType, public
-        Add an element to the History. If the History is full, the oldest message is deleted.
-    get : list, public
-        Returns the content of the History.
-    """
-    def __init__(self, limit: int):
-        """Initialize the History.
-        
-        Parameters
-        ----------
-        limit : int
-            The maximum number of messages the History's instance can handle.
-        """
-        self.__content = []
-        if limit:
-            self.__limit = limit
-        else:
-            self.__limit = 100
-
-    def __len__(self):
-        """Returns the lenght of the History's instance."""
-        return len(self.__content)
-
-    def add(self, elmnt):
-        """Add a new element to the History's instance. If the History is full, the oldest message
-        is deleted.
-
-        Parameters
-        ----------
-        elmnt
-            The element to add.
-        """
-        if len(self.__content) == self.__limit:
-            self.__content.pop(0)
-        self.__content.append(elmnt)
-
-    def get(self):
-        """Returns the content of the History's instance."""
-        return self.__content
-
-
-class Message:
-    """Parse the raw message in three fields: the author, the channel and the text content.
-    
-    Attributes
-    ----------
-    pattern : re.Pattern, public
-        The message parsing pattern.
-    author : str, public
-        The message's author.
-    to : str, public
-        The message's origin (channel or DM).
-    text : str, public
-        The message's content.
-    """
-    pattern = re.compile(
-            r"^:(?P<author>[\w.~|\-\[\]]+)(?:!(?P<host>\S+))? PRIVMSG (?P<to>\S+) :(?P<text>.+)"
-        )
-
-    def __init__(self, raw: str):
-        """Initialize and parse a new Message.
-
-        Parameters
-        ----------
-        raw : str
-            The raw received message.
-        """
-        match = re.search(Message.pattern, raw)
-        if match:
-            self.author = match.group("author")
-            self.to = match.group("to")
-            self.text = match.group("text")
-            logging.debug("sucessfully parsed %s into %s", raw, self.__str__())
-        else:
-            self.author = ""
-            self.to = ""
-            self.text = ""
-            logging.warning("failed to parse %s into valid message", raw)
-
-    def __str__(self):
-        """Convert the Message's instance into a human readable string."""
-        return f"{self.author} to {self.to}: {self.text}"
