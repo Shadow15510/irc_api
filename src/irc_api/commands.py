@@ -1,5 +1,5 @@
 """Defines the decorators for bot commands."""
-from irc_api.bot import BotCommand, PREFIX
+from irc_api.bot import BotCommand
 
 def command(name: str, alias: tuple=(), desc: str=""):
     """Create a new bot's command. Note that's a decorator.
@@ -33,17 +33,15 @@ def command(name: str, alias: tuple=(), desc: str=""):
     if not alias or not name in alias:
         alias += (name,)
     def decorator(func):
-        return BotCommand(
+        cmnd = BotCommand(
                 name=name,
                 func=func,
-                events=[
-                        lambda m: True in \
-                        [m.text == PREFIX + cmd or m.text.startswith(PREFIX + cmd + " ")
-                        for cmd in alias]
-                    ],
+                events=[],
                 desc=desc,
                 cmnd_type=1
             )
+        cmnd.alias = alias
+        return cmnd
     return decorator
 
 
@@ -242,7 +240,7 @@ def auto_help(bot, msg, fct_name: str=""):
         for line in bot.commands_help[fct_name].desc.splitlines():
             answer += f" │ {line}\n"
     else:
-        answer = f"List of available commands ({PREFIX}help <cmnd> for more informations)\n"
+        answer = f"List of available commands ({bot.prefix}help <cmnd> for more informations)\n"
         for cmnd_name, cmnd in bot.commands_help.items():
             if cmnd.cmnd_type == 1:
                 answer += f" - {cmnd_name}\n"

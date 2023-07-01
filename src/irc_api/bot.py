@@ -8,7 +8,6 @@ import re
 from irc_api.irc import IRC
 from irc_api.history import History
 
-PREFIX = ""
 
 class Bot:
     """Run the connexion between IRC's server and V5 one.
@@ -86,9 +85,7 @@ class Bot:
                     cmnd_pack1, cmnd_pack2
                 )
         """
-        global PREFIX
-        PREFIX = prefix
-        self.prefix = PREFIX
+        self.prefix = prefix
 
         self.irc = IRC(*irc_params)
         self.history = History(limit)
@@ -165,6 +162,13 @@ class Bot:
             If the command should be added to the documented functions.
         """
         command.bot = self
+
+        if command.cmnd_type == 1:
+            command.events.append(
+                    lambda m: True in \
+                    [m.text == self.prefix + cmd or m.text.startswith(f"{self.prefix}{cmd} ")
+                    for cmd in command.alias]
+                )
 
         if command.cmnd_type == 2:
             def timed_func(bot):
