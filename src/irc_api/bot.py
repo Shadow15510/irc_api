@@ -51,7 +51,7 @@ class Bot:
     def __init__(
             self,
             irc_params: tuple,
-            *commands_modules
+            *commands_modules,
             auth: tuple=(),
             channels: list=["#general"],
             prefix: str="",
