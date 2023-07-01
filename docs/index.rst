@@ -13,4 +13,5 @@ Content
 -------
 .. toctree::
     Home <self>
-    API <modules>
+    api <api>
+    irc <irc>
