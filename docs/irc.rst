@@ -4,3 +4,7 @@ irc_api.irc package
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. toctree::
+    :maxdepth: 2
+    irc_api.irc
