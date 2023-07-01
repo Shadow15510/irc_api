@@ -25,10 +25,10 @@ license-files = [
     "LICENSE",
 ]
 
-doc = [
-    "sphinx>=7.0.1",
-    "sphinx-autodocgen",
-]
+# doc = [
+#     "sphinx>=7.0.1",
+#     "sphinx-autodocgen",
+# ]
 
 [tool.setuptools.dynamic.version]
 attr = "irc_api.__init__.__version__"
