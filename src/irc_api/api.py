@@ -121,6 +121,7 @@ def channel(channel_name: str, desc: str=""):
         def spam(bot, message):
             bot.send("#bot-test", "This is MY channel.")
 
+
     You can also cumulate this decorator with ``@api.command``, ``@api.on`` and ``@api.user``::
 
         from random import choice
