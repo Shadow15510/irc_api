@@ -5,10 +5,10 @@ from threading import Thread
 import time
 import re
 
-from irc_api.commands import BotCommand, PREFIX
 from irc_api.irc import IRC
 from irc_api.history import History
 
+PREFIX = ""
 
 class Bot:
     """Run the connexion between IRC's server and V5 one.
@@ -51,11 +51,11 @@ class Bot:
     def __init__(
             self,
             irc_params: tuple,
-            *commands_modules,
             auth: tuple=(),
             channels: list=["#general"],
             prefix: str="",
             limit: int=100,
+            *commands_modules
         ):
         """Initialize the Bot instance.
 
@@ -219,6 +219,78 @@ class Bot:
         if command_name in self.callbacks:
             self.callbacks.pop(command_name)
             self.commands_help.pop(command_name)
+
+
+class BotCommand:
+    """Implement a bot command.
+
+    Attributes
+    ----------
+    name : str, public
+        The name of the command.
+    func : function, public
+        The function to execute when the BotCommand is called.
+    events : list, public
+        The list of the conditions on which the BotCommand will be called.
+    desc : str, public
+        The description of the BotCommand. By default, the function's docstring is used.
+    cmnd_type : int, public
+        The type of the command.
+        - if ``cmnd_type = 0``, the command is triggered on an event.
+        - if ``cmnd_type = 1``, the command is a named command.
+        - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+    bot : irc_api.bot.Bot, public
+        The bot the command belongs to.
+    """
+    def __init__(self, name: str, func, events: list, desc: str, cmnd_type: int):
+        """Constructor method.
+
+        Parameters
+        ----------
+        name : str
+            The name of the command.
+        func : function
+            The function to execute when the BotCommand is called.
+        events : list
+            The list of the conditions on which the BotCommand will be called.
+        desc : str
+            The description of the BotCommand. By default, the function's docstring is used.
+        cmnd_type : int
+            The type of the command.
+            - if ``cmnd_type = 0``, the command is triggered on an event.
+            - if ``cmnd_type = 1``, the command is a named command.
+            - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+        """
+        self.name = name
+        self.func = func
+        self.events = events
+        self.cmnd_type = cmnd_type
+
+        if desc:
+            self.desc = desc
+        else:
+            self.desc = "..."
+            if func.__doc__:
+                self.desc = func.__doc__
+
+        self.bot = None
+
+    def __call__(self, msg, *args):
+        """Call the function with the message that trigger the command and the given arguments.
+
+        Parameters
+        ----------
+        msg : irc_api.message.Message
+            The message that triggered the BotCommand.
+        *args
+            The arguments to give to the function.
+
+        Returns
+        -------
+        out
+            The output of ``BotCommand.func``.
+        """
+        return self.func(self.bot, msg, *args)
 
 
 class WrongArg:
