@@ -3,7 +3,7 @@ PREFIX = ""
 
 
 class BotCommand:
-    """Implement a bot commands.
+    """Implement a bot command.
 
     Attributes
     ----------
