@@ -5,11 +5,10 @@ from threading import Thread
 import time
 import re
 
-from irc_api.commands import Command
+from irc_api.commands import BotCommand, PREFIX
 from irc_api.irc import IRC
 from irc_api.history import History
 
-PREFIX = ""
 
 class Bot:
     """Run the connexion between IRC's server and V5 one.
@@ -28,7 +27,7 @@ class Bot:
         This contains the username and the password for a SASL auth.
     callbacks : dict, public
         The callbacks of the bot. This dictionnary is like {name: command} where name is the name of
-        the command and command a Command's instance.
+        the command and command a BotCommand's instance.
     commands_help : dict, public
         Same that ``callbacks`` but only with the documented commands. 
     threads : list, public
@@ -160,7 +159,7 @@ class Bot:
 
         Parameters
         ----------
-        command : Command
+        command : BotCommand
             The command to add to the bot.
         add_to_help : bool, optionnal
             If the command should be added to the documented functions.
@@ -206,7 +205,7 @@ class Bot:
             add_to_help = "auto_help" in dir(commands_module)
             for cmnd_name in dir(commands_module):
                 cmnd = getattr(commands_module, cmnd_name)
-                if isinstance(cmnd, Command):
+                if isinstance(cmnd, BotCommand):
                     self.add_command(cmnd, add_to_help=add_to_help)
 
     def remove_command(self, command_name: str):

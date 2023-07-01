@@ -1,7 +1,7 @@
 .. toctree::
     :maxdepth: 4
     
-irc
+IRC
 ---
 .. automodule:: irc_api.irc
     :members:

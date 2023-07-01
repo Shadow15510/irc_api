@@ -1,6 +1,77 @@
 """Defines the decorators for bot commands."""
+PREFIX = ""
 
-from irc_api.bot import PREFIX
+
+class BotCommand:
+    """Implement a bot commands.
+
+    Attributes
+    ----------
+    name : str, public
+        The name of the command.
+    func : function, public
+        The function to execute when the BotCommand is called.
+    events : list, public
+        The list of the conditions on which the BotCommand will be called.
+    desc : str, public
+        The description of the BotCommand. By default, the function's docstring is used.
+    cmnd_type : int, public
+        The type of the command.
+        - if ``cmnd_type = 0``, the command is triggered on an event.
+        - if ``cmnd_type = 1``, the command is a named command.
+        - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+    bot : irc_api.bot.Bot, public
+        The bot the command belongs to.
+    """
+    def __init__(self, name: str, func, events: list, desc: str, cmnd_type: int):
+        """Constructor method.
+
+        Parameters
+        ----------
+        name : str
+            The name of the command.
+        func : function
+            The function to execute when the BotCommand is called.
+        events : list
+            The list of the conditions on which the BotCommand will be called.
+        desc : str
+            The description of the BotCommand. By default, the function's docstring is used.
+        cmnd_type : int
+            The type of the command.
+            - if ``cmnd_type = 0``, the command is triggered on an event.
+            - if ``cmnd_type = 1``, the command is a named command.
+            - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+        """
+        self.name = name
+        self.func = func
+        self.events = events
+        self.cmnd_type = cmnd_type
+
+        if desc:
+            self.desc = desc
+        else:
+            self.desc = "..."
+            if func.__doc__:
+                self.desc = func.__doc__
+
+        self.bot = None
+
+    def __call__(self, msg, *args):
+        """Call the function with the message that trigger the command and the given arguments.
+
+        Parameters
+        ----------
+        msg : irc_api.message.Message
+            The message that triggered the BotCommand.
+        *args
+            The arguments to give to the function.
+
+        Returns
+        -------
+        out
+            The output of ``BotCommand.func``.
+        """
+        return self.func(self.bot, msg, *args)
 
 
 def command(name: str, alias: tuple=(), desc: str=""):
@@ -21,7 +92,7 @@ def command(name: str, alias: tuple=(), desc: str=""):
     -------
     decorator : function
         This function take in argument the function you want to transform into a command and returns
-        a Command's instance.
+        a BotCommand's instance.
 
     Examples
     --------
@@ -35,7 +106,7 @@ def command(name: str, alias: tuple=(), desc: str=""):
     if not alias or not name in alias:
         alias += (name,)
     def decorator(func):
-        return Command(
+        return BotCommand(
                 name=name,
                 func=func,
                 events=[
@@ -69,7 +140,7 @@ def on(event, desc: str=""):
     -------
     decorator : function
         This function take in argument the function you want to transform into a command and returns
-        a Command's instance.
+        a BotCommand's instance.
 
     Examples
     --------
@@ -81,11 +152,11 @@ def on(event, desc: str=""):
             bot.send(message.to, f"You're welcome {message.author}! ;)")
     """
     def decorator(func_or_cmnd):
-        if isinstance(func_or_cmnd, Command):
+        if isinstance(func_or_cmnd, BotCommand):
             func_or_cmnd.events.append(event)
             return func_or_cmnd
 
-        return Command(
+        return BotCommand(
                 name=func_or_cmnd.__name__,
                 func=func_or_cmnd,
                 events=[event],
@@ -111,7 +182,7 @@ def channel(channel_name: str, desc: str=""):
     -------
     decorator : function
         This function take in argument the function you want to transform into a command and returns
-        a Command's instance.
+        a BotCommand's instance.
 
     Examples
     --------
@@ -133,11 +204,11 @@ def channel(channel_name: str, desc: str=""):
             bot.send("#bot-test", f"*{choice(emotions)} troll's noises*")
     """
     def decorator(func_or_cmnd):
-        if isinstance(func_or_cmnd, Command):
+        if isinstance(func_or_cmnd, BotCommand):
             func_or_cmnd.events.append(lambda m: m.to == channel_name)
             return func_or_cmnd
 
-        return Command(
+        return BotCommand(
             name=func_or_cmnd.__name__,
             func=func_or_cmnd,
             events=[lambda m: m.to == channel_name],
@@ -163,7 +234,7 @@ def user(user_name: str, desc: str=""):
     -------
     decorator : function
         This function take in argument the function you want to transform into a command and returns
-        a Command's instance.
+        a BotCommand's instance.
 
     Examples
     --------
@@ -183,11 +254,11 @@ def user(user_name: str, desc: str=""):
             bot.send(message.to, "Test received, my_pseudo.")
     """
     def decorator(func_or_cmnd):
-        if isinstance(func_or_cmnd, Command):
+        if isinstance(func_or_cmnd, BotCommand):
             func_or_cmnd.events.append(lambda m: m.author == user_name)
             return func_or_cmnd
 
-        return Command(
+        return BotCommand(
             name=func_or_cmnd.__name__,
             func=func_or_cmnd,
             events=[lambda m: m.author == user_name],
@@ -212,7 +283,7 @@ def every(time: float, desc=""):
     -------
     decorator : function
         This function take in argument the function you want to transform into a command and returns
-        a Command's instance.
+        a BotCommand's instance.
 
     Examples
     --------
@@ -224,7 +295,7 @@ def every(time: float, desc=""):
             bot.send("#general", "Hello there!") # please don't do that (.><)'
     """
     def decorator(func):
-        return Command(
+        return BotCommand(
                 name=func.__name__,
                 func=func,
                 events=time,
@@ -233,78 +304,6 @@ def every(time: float, desc=""):
             )
 
     return decorator
-
-
-class Command:
-    """Implement a bot commands.
-
-    Attributes
-    ----------
-    name : str, public
-        The name of the command.
-    func : function, public
-        The function to execute when the Command is called.
-    events : list, public
-        The list of the conditions on which the Command will be called.
-    desc : str, public
-        The description of the Command. By default, the function's docstring is used.
-    cmnd_type : int, public
-        The type of the command.
-        - if ``cmnd_type = 0``, the command is triggered on an event.
-        - if ``cmnd_type = 1``, the command is a named command.
-        - if ``cmnd_type = 2``, the command is a routine automatically triggered.
-    bot : irc_api.bot.Bot, public
-        The bot the command belongs to.
-    """
-    def __init__(self, name: str, func, events: list, desc: str, cmnd_type: int):
-        """Constructor method.
-
-        Parameters
-        ----------
-        name : str
-            The name of the command.
-        func : function
-            The function to execute when the Command is called.
-        events : list
-            The list of the conditions on which the Command will be called.
-        desc : str
-            The description of the Command. By default, the function's docstring is used.
-        cmnd_type : int
-            The type of the command.
-            - if ``cmnd_type = 0``, the command is triggered on an event.
-            - if ``cmnd_type = 1``, the command is a named command.
-            - if ``cmnd_type = 2``, the command is a routine automatically triggered.
-        """
-        self.name = name
-        self.func = func
-        self.events = events
-        self.cmnd_type = cmnd_type
-
-        if desc:
-            self.desc = desc
-        else:
-            self.desc = "..."
-            if func.__doc__:
-                self.desc = func.__doc__
-
-        self.bot = None
-
-    def __call__(self, msg, *args):
-        """Call the function with the message that trigger the command and the given arguments.
-
-        Parameters
-        ----------
-        msg : irc_api.message.Message
-            The message that triggered the Command.
-        *args
-            The arguments to give to the function.
-
-        Returns
-        -------
-        out
-            The output of ``Command.func``.
-        """
-        return self.func(self.bot, msg, *args)
 
 
 @command("help")
