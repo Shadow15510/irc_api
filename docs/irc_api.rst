@@ -1,13 +1,3 @@
-IRC API package
-===============
-.. automodule:: irc_api
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-Submodules
-----------
-
 api
 ---
 .. automodule:: irc_api.api
