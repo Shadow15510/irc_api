@@ -51,11 +51,11 @@ class Bot:
     def __init__(
             self,
             irc_params: tuple,
+            *commands_modules
             auth: tuple=(),
             channels: list=["#general"],
             prefix: str="",
             limit: int=100,
-            *commands_modules
         ):
         """Initialize the Bot instance.
 
