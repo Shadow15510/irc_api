@@ -1,6 +1,6 @@
-logging
+logging>=0.5.1.2
 queue
-re
+re>=2.2.1
 sphinx>=7.0.1
 socket
 ssl
