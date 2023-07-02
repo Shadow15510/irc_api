@@ -46,8 +46,8 @@ Some IRC servers required an auth. This package can handle SASL auth, you just h
         )
     
 
-Make some commands
-------------------
+Make a command
+--------------
 You have at your disposal a large panel of decorators to make custom commands. Let's see them all.
 
 All your commands must take at least two parameters: 
@@ -212,7 +212,7 @@ You can also decide to declare the bot and to add the command after::
 
 Auto-generated assistance
 -------------------------
-An auto-generated command is available. It allows you to have access to the command ``help``. To activate the auto-generated documentation for the whole module, you just have to import ``auto_help`` from ``commands``, you can proceed like: ``from irc_api.commands import auto_help``.
+An auto-generated assistance is available. It allows you to have access to the command ``help``. To activate the auto-generated documentation for the whole module, you just have to import ``auto_help`` from ``commands``, you can proceed like: ``from irc_api.commands import auto_help``.
 
 To have a constructive assistance, you can add a description to your commands by passing a ``desc`` positionnal argument to the decorator::
 
@@ -237,4 +237,4 @@ You can also document your function and don't fill the ``desc`` argument::
 
 If the both are given (docstring and ``desc``), only ``desc`` is stored.
 
-In the IRC chat, you can have access to the auto-generated assistance by enter: ``help`` to have the list of all available commands or ``help cmnd`` where ``cmnd`` is the command's name. By default, only named commands are taken in charge. Feel free to make you're own assistance function. You can use ``Bot.callbacks`` to get all the registered commands and ``Bot.commands_help`` to get only the commands that are marked as documented.
+In the IRC chat, you can have access to the auto-generated assistance by enter: ``help`` (don't forget the prefix if you have set one) to have the list of all available commands or ``help cmnd`` where ``cmnd`` is the command's name. By default, only named commands are taken in charge. Feel free to make you're own assistance function. You can use ``Bot.callbacks`` to get all the registered commands and ``Bot.commands_help`` to get only the commands that are marked as documented.
