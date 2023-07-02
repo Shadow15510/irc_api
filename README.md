@@ -5,9 +5,10 @@
 IRC API is a small API to make Python IRC bots. This API is based on decorators to make commands like the `cog` module in `discord.py`.
 
 If you encounter any issue feel free to [open one](https://github.com/Shadow15510/irc_api/issues).
+A full documentation is available on [readthedocs](https://irc-api.readthedocs.io/en/latest/).
 
 ## Installation
-To install IRC API, you should use ``pip install irc-api``.
+To install IRC API, you should use ``pip install irc-api``, check out the [Pypi project page](https://pypi.org/project/irc-api/) for more informations.
 
 ## Licence
 This project is under GNU General Public Licence v3.0 or later (GPLv3+).
