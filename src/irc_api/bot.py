@@ -1,9 +1,10 @@
 """Provide a Bot class that react to IRC's message and events."""
 
-from threading import Thread
+import logging
 import time
 import re
 
+from threading import Thread
 from irc_api.irc import IRC
 from irc_api.history import History
 
@@ -120,6 +121,7 @@ class Bot:
             if message is not None:
                 for callback in self.callbacks.values():
                     if not False in [event(message) for event in callback.events]:
+                        logging.info("callback triggered: %s", callback.name)
                         # event commands
                         if callback.cmnd_type == 0:
                             callback(message)
@@ -172,6 +174,7 @@ class Bot:
                 while True:
                     command.func(bot)
                     time.sleep(command.events)
+                    logging.info("automatic callback: %s", command.name)
                     
 
             self.threads.append(Thread(target=timed_func, args=(self,)))

@@ -1,11 +1,11 @@
 """Manage the IRC layer."""
 
+import logging
 import socket
 import ssl
 
 from queue import Queue
 from threading import Thread
-
 from irc_api.message import Message
 
 
@@ -109,6 +109,7 @@ class IRC:
             if " PRIVMSG " in message:
                 msg = Message(message)
                 if msg:
+                    logging.info("receive: %s", msg)
                     return msg
 
     def join(self, channel: str):
@@ -119,6 +120,7 @@ class IRC:
         channel : str
             The name of the channel to join.
         """
+        logging.info("join %s", channel)
         self.send(f"JOIN {channel}")
 
     def waitfor(self, condition):
