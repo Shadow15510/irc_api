@@ -22,10 +22,10 @@ Content
 -------
 .. toctree::
     Home <self>
+    Tutorials <tutorials>
     bot <bot>
     commands <commands>
     history <history>
     irc <irc>
     message <message>
-    tutorials <tutorials>
 

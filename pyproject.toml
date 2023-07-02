@@ -18,6 +18,7 @@ classifiers = [
 
 dynamic = [
 	"version",
+	"dependencies"
 ]
 
 [tool.setuptools]
@@ -34,6 +35,9 @@ doc = [
 
 [tool.setuptools.dynamic.version]
 attr = "irc_api.__init__.__version__"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["REQUIREMENTS"]}
 
 [project.urls]
 Homepage = "https://github.com/Shadow15510/irc_api"

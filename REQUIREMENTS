@@ -1,0 +1,7 @@
+logging>=0.5.1.2
+queue
+re>=2.2.1
+socket
+ssl
+threading
+time
