@@ -51,8 +51,10 @@ Make some commands
 You have at your disposal a large panel of decorators to make custom commands. Let's see them all.
 
 All your commands must take at least two parameters: 
-* the bot itself (an irc_api.bot.Bot instance)
-* the message that triggered the bot (an irc_api.message.Message instance)
+
+– the bot itself (an irc_api.bot.Bot instance)
+
+– the message that triggered the bot (an irc_api.message.Message instance)
 
 In this part, you should import the ``commands`` module as follow: ``from irc_api import commands``.
 
@@ -144,8 +146,10 @@ There is several ways to import commands into the bot.
 
 ``Bot.add_command``
     This method allows you to add a single command to the bot. It takes two arguments:
-    * the command itself
-    * a bool to consider the command as documented (``True``) or not (``False``). If the command is marked as documented, it will be stored into ``Bot.commands_help``
+    
+    – the command itself
+    
+    – a bool to consider the command as documented (``True``) or not (``False``). If the command is marked as documented, it will be stored into ``Bot.commands_help``
     
 ``Bot.add_commands``
     This allows you to a list of commands. For exemple::

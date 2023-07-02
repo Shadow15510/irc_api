@@ -10,7 +10,7 @@ from irc_api.history import History
 
 
 class Bot:
-    """Run the connexion between IRC's server and V5 one.
+    """Watch the IRC server and handle commands.
 
     Attributes
     ----------
