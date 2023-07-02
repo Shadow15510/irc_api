@@ -1,4 +1,4 @@
-logging>=0.5.1.2
+logging
 queue
 re>=2.2.1
 sphinx>=7.0.1
