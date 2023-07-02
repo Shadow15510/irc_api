@@ -1,6 +1,5 @@
 """Manage the IRC layer."""
 
-import logging
 import socket
 import ssl
 
@@ -121,7 +120,6 @@ class IRC:
             The name of the channel to join.
         """
         self.send(f"JOIN {channel}")
-        logging.info("joined %s", channel)
 
     def waitfor(self, condition):
         """Wait for a raw message that matches the condition.
@@ -157,5 +155,4 @@ class IRC:
 
                 # Or add a new message to inbox
                 elif len(msg):
-                    self.__inbox.put(msg)
-                    logging.debug("received %s", msg)
+                    self.__inbox.put(msg)                    

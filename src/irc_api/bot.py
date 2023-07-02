@@ -1,6 +1,5 @@
 """Provide a Bot class that react to IRC's message and events."""
 
-import logging
 from threading import Thread
 import time
 import re
@@ -117,17 +116,15 @@ class Bot:
         while True:
             message = self.irc.receive()
             self.history.add(message)
-            logging.info("received %s", message)
+            
             if message is not None:
                 for callback in self.callbacks.values():
                     if not False in [event(message) for event in callback.events]:
-                        logging.info("matched %s", callback.name)
-
-                        # others command types
+                        # event commands
                         if callback.cmnd_type == 0:
                             callback(message)
 
-                        # @api.command
+                        # named commands
                         elif callback.cmnd_type == 1:
                             args = check_args(callback.func, *parse(message.text)[1:])
                             if isinstance(args, list):
@@ -175,7 +172,7 @@ class Bot:
                 while True:
                     command.func(bot)
                     time.sleep(command.events)
-                    logging.info("auto call : %s", command.name)
+                    
 
             self.threads.append(Thread(target=timed_func, args=(self,)))
             self.threads[-1].start()
