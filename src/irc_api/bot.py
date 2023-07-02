@@ -16,9 +16,9 @@ class Bot:
     ----------
     prefix : str, public
         The bot's prefix for named command.
-    irc : IRC, public
+    irc : irc_api.irc.IRC, public
         IRC wrapper which handle communication with IRC server.
-    history : History, public
+    history : irc_api.history.History, public
         The messages history. 
     channels : list, public
         The channels the bot will listen.

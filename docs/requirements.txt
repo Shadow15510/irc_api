@@ -1,5 +1,4 @@
 logging
-myst-parser>=2.0.0
 queue
 re
 sphinx>=7.0.1
