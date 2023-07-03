@@ -8,26 +8,43 @@ If the targeted IRC server has a SASL auth, you'll have to give the auth paramet
 
 Let's start with a minimal bot::
 
-    from irc_api.bot import Bot # imports the Bot
-    from irc_api import commands # imports command's decorators
+    from irc_api.bot import Bot   # imports the Bot
+    from irc_api import commands  # imports command's decorators
     
     my_bot = Bot(
             ('irc.exemple.com', 6697),  # host and port for IRC server
-            channels=['#general'],      # the channels to bot will join
-            prefix='!'                  # the bot's prefix.
         )
     
     @commands.command(name='hello')  # we create a new command
-    def cmnd_hello(bot, msg):  # the function bounded to the command
+    def cmnd_hello(bot, msg):        # the function bounded to the command
         bot.send(msg.to, f'Hello {msg.author}')
     
     my_bot.add_command(cmnd_hello) # we add the command to the bot
     
     my_bot.start('SuperBot')  # we start the bot; this method take the nickname in argument
 
-So here we have just created a minimal bot that will connect on the channel ``#general`` of the ``irc.exemple.com`` IRC server with the nick 'SuperBot'. When someone on this channel sends ``!hello``, the bot will answer.
+So here we have just created a minimal bot that will connect on the channel ``#general`` of the ``irc.exemple.com`` IRC server with the nick 'SuperBot'. When someone on this channel sends ``hello``, the bot will answer.
 
 The PINGing of IRC is fully take in charge by IRC API you don't have to make a command to handle it.
+
+.. note::
+	You can create a new class that inherits from ``Bot``::
+	
+		from irc_api.bot import Bot
+		
+		class MyBot(Bot):
+			my_custom_attritutes = 0
+		
+		my_bot = MyBot(…)
+		
+		@commands.command('get')
+		def get_custom_attr(bot, msg):
+			bot.send(msg.to, f'{bot.my_custom_attribute}')
+		
+		my_bot.add_command(get_custom_attr)
+		my_bot.start(…)
+	
+	And the same goes for custom methods.
 
 SASL auth
 ---------
@@ -44,7 +61,17 @@ Some IRC servers required an auth. This package can handle SASL auth, you just h
             auth=(USER, PASSWORD),      # the informations for SASL auth
             prefix='!'                  # the bot's prefix.
         )
-    
+
+Logging
+-------
+You can log what the bot receive and what callbacks are triggered. You just have to import the ``logging`` package and to specify a log format::
+
+	import logging
+	
+	LOG_FORMAT = "[%(levelname)s] %(message)s"
+	logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
+
+You can change the LOG_FORMAT to suit your need.
 
 Make a command
 --------------
