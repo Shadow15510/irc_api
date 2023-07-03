@@ -33,7 +33,7 @@ The PINGing of IRC is fully take in charge by IRC API you don't have to make a c
 		from irc_api.bot import Bot
 		
 		class MyBot(Bot):
-			my_custom_attritutes = 0
+			my_custom_attritute = 0
 		
 		my_bot = MyBot(…)
 		
