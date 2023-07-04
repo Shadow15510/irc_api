@@ -107,7 +107,7 @@ class Bot:
             The nickname of the bot.
         """
         # Start IRC
-        self.irc.connexion(nick, self.auth)
+        self.irc.connection(nick, self.auth)
 
         # Join channels
         for channel in self.channels:

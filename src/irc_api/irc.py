@@ -10,7 +10,7 @@ from irc_api.message import Message
 
 
 class IRC:
-    """Manage connexion to an IRC server, authentication and callbacks.
+    """Manage connection to an IRC server, authentication and callbacks.
 
     Attributes
     ----------
@@ -25,7 +25,7 @@ class IRC:
 
     Methods
     -------
-    connexion : NoneType, public
+    connection : NoneType, public
         Starts the IRC layer and manage authentication.
     send : NoneType, public
         Sends a message to a given channel.
@@ -63,7 +63,7 @@ class IRC:
         self.__handler = Thread(target=self.__handle)
 
     # Public methods
-    def connexion(self, nick: str, auth: tuple=()):
+    def connection(self, nick: str, auth: tuple=()):
         """Start the IRC layer. Manage authentication as well.
 
         Parameters
@@ -81,8 +81,6 @@ class IRC:
         if auth:
             self.waitfor(lambda m: "NOTICE" in m and "/AUTH" in m)
             self.send(f"AUTH {auth[0]}:{auth[1]}")
-
-        self.waitfor(lambda m: "You are now logged in" in m)
 
         self.connected = True
 
