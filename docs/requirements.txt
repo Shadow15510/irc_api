@@ -1,4 +1,4 @@
-logging>=0.4
+numpy
 sphinx
 sphinx-autodocgen
 sphinx-rtd-theme
