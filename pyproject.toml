@@ -17,7 +17,6 @@ classifiers = [
 ]
 dynamic = [
 	"version",
-	"dependencies"
 ]
 
 [tool.setuptools]
@@ -34,9 +33,6 @@ doc = [
 
 [tool.setuptools.dynamic.version]
 attr = "irc_api.__init__.__version__"
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
 
 
 [project.urls]
