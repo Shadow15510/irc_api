@@ -1,2 +1,5 @@
-sphinx>=7.0.1
+logging>=0.4
+sphinx
+sphinx-autodocgen
+sphinx-rtd-theme
 
