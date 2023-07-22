@@ -3,5 +3,5 @@
     
 Bot
 ---
-.. automodule:: irc_api.bot
-	..autoclass:: irc_apip.bot.Bot
+.. module:: irc_api.bot
+	.. class:: irc_api.bot.Bot
