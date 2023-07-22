@@ -1,4 +1,8 @@
-"""Provide a Bot class that react to IRC's message and events."""
+"""
+Provide a Bot class that react to IRC's message and events.
+
+.. autoclass:: Bot
+"""
 
 import logging
 import time
