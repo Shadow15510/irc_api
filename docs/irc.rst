@@ -4,6 +4,7 @@
 IRC
 ---
 .. automodule:: irc_api.irc
-    :members:
     :undoc-members:
-    :show-inheritance:
+
+.. automodule:: irc_api.irc.IRC
+    :undoc-members:
