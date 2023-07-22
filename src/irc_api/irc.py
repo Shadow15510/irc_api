@@ -21,24 +21,7 @@ class IRC:
         The IRC's socket.
     inbox : Queue, private
         Queue of the incomming messages.
-    handler : Thread, private
-
-    Methods
-    -------
-    connection : NoneType, public
-        Starts the IRC layer and manage authentication.
-    send : NoneType, public
-        Sends a message to a given channel.
-    receive : Message, public
-        Receive a new raw message and return the processed message. 
-    join : NoneType, public
-        Allows to join a given channel.
-    waitfor : str, public
-        Wait for a raw message that matches the given condition.
-
-    handle : NoneType, private
-        Handles the ping and store incoming messages into the inbox attribute.
-    
+    handler : Thread, private 
     """
     def __init__(self, host: str, port: int):
         """Initialize an IRC wrapper.

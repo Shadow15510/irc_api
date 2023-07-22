@@ -11,13 +11,7 @@ class History:
         The maximum number of messages that the History stored.
     """
     def __init__(self, limit: int):
-        """Initialize the History.
-        
-        Parameters
-        ----------
-        limit : int
-            The maximum number of messages the History's instance can handle.
-        """
+        """Constructor method."""
         self.__content = []
         if limit:
             self.__limit = limit
@@ -25,7 +19,7 @@ class History:
             self.__limit = 100
 
     def __len__(self):
-        """Returns the lenght of the History's instance."""
+        """Returns the length of the History's instance."""
         return len(self.__content)
 
     def add(self, elmnt):
@@ -34,7 +28,8 @@ class History:
 
         Parameters
         ----------
-        :elmnt : int: Whatever the type it will work.
+        elmnt
+            The element to add.
         """
         if len(self.__content) == self.__limit:
             self.__content.pop(0)

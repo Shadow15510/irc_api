@@ -32,20 +32,17 @@ class Bot:
     threads : list, public
         A list of threads for the commands with ``@api.every``.
 
-    Methods
-    -------
-    start : NoneType, public
-        Runs the bot and connects it to IRC server.
-    send : NoneType, public
-        Send a message on the IRC server.
-    add_command : NoneType, public
-        Add a single command to the bot.
-    add_commands : NoneType, public
-        Allow to add a list of command to the bot.
-    add_commands_module : NoneType, public
-        Allow to add a module of command to the bot.
-    remove_command : NoneType, public
-        Remove a command.
+    Examples
+    --------
+    Assuming the module was imported as follow: ``from irc_api import api``
+    You can create a bot::
+
+        my_bot = api.Bot(
+                irc_params=(irc.exemple.com, 6697),
+                channels=["#general", "#bot-test"],
+                prefix="!",
+                cmnd_pack1, cmnd_pack2
+            )
     """
     def __init__(
             self,
@@ -72,18 +69,6 @@ class Bot:
             The message history of the bot. By default, the bot will remind 100 messages.
         *commands_module : optionnal
             Modules of commands that you can give to the bot at it's creation.
-
-        Examples
-        --------
-        Assuming the module was imported as follow: ``from irc_api import api``
-        You can create a bot::
-
-            my_bot = api.Bot(
-                    irc_params=(irc.exemple.com, 6697),
-                    channels=["#general", "#bot-test"],
-                    prefix="!",
-                    cmnd_pack1, cmnd_pack2
-                )
         """
         self.prefix = prefix
 
