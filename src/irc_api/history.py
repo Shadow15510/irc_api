@@ -34,9 +34,7 @@ class History:
 
         Parameters
         ----------
-        :param elmnt: Whatever the type it will work.
-
-        :return: None
+        :elmnt : int: Whatever the type it will work.
         """
         if len(self.__content) == self.__limit:
             self.__content.pop(0)
