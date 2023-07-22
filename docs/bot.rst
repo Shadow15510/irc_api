@@ -7,4 +7,4 @@ Bot
 	:ignore-module-all:
 
 	.. autoclass:: Bot
-    	:ignore-module-all:
+
