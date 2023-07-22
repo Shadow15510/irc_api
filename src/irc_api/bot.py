@@ -1,8 +1,4 @@
-"""Provide a Bot class that react to IRC's message and events.
-
-.. autoclass:: Bot
-    :ignore-module-all:
-"""
+"""Provide a Bot class that react to IRC's message and events."""
 
 import logging
 import time
