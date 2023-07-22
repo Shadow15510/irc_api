@@ -1,7 +1,7 @@
 """
 Provide a Bot class that react to IRC's message and events.
 
-.. autoclass:: Bot
+.. class:: Bot
 """
 
 import logging

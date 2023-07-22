@@ -3,5 +3,4 @@
     
 Bot
 ---
-.. automodule:: irc_api.bot
-	:ignore-module-all:
+.. module:: irc_api.bot
