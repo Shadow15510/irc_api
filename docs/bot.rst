@@ -4,4 +4,4 @@
 Bot
 ---
 .. automodule:: irc_api.bot
-	..autoclass:: Bot
+	..autoclass:: irc_apip.bot.Bot
