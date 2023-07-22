@@ -9,13 +9,6 @@ class History:
         The content of the History.
     limit : int, private
         The maximum number of messages that the History stored.
-
-    Methods
-    -------
-    add : NoneType, public
-        Add an element to the History. If the History is full, the oldest message is deleted.
-    get : list, public
-        Returns the content of the History.
     """
     def __init__(self, limit: int):
         """Initialize the History.
@@ -41,8 +34,9 @@ class History:
 
         Parameters
         ----------
-        elmnt
-            The element to add.
+        :param elmnt: Whatever the type it will work.
+
+        :return: None
         """
         if len(self.__content) == self.__limit:
             self.__content.pop(0)
