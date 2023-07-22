@@ -9,6 +9,11 @@ class History:
         The content of the History.
     limit : int, private
         The maximum number of messages that the History stored.
+
+    Methods
+    -------
+    .. automethod:: add
+    .. automethod:: get
     """
     def __init__(self, limit: int):
         """Constructor method."""

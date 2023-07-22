@@ -35,9 +35,12 @@ class Bot:
     Methods
     -------
     .. automethod:: __init__
-    .. automethod:: start
-    .. automethod:: send
     .. automethod:: add_command
+    .. automethod:: add_commands
+    .. automethod:: add_commands_module
+    .. automethod:: remove_commands
+    .. automethod:: send
+    .. automethod:: start
 
     Examples
     --------
@@ -232,9 +235,9 @@ class BotCommand:
         The description of the BotCommand. By default, the function's docstring is used.
     cmnd_type : int, public
         The type of the command.
-        - if ``cmnd_type = 0``, the command is triggered on an event.
-        - if ``cmnd_type = 1``, the command is a named command.
-        - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+        * if ``cmnd_type = 0``, the command is triggered on an event.
+        * if ``cmnd_type = 1``, the command is a named command.
+        * if ``cmnd_type = 2``, the command is a routine automatically triggered.
     bot : irc_api.bot.Bot, public
         The bot the command belongs to.
     """
@@ -253,9 +256,9 @@ class BotCommand:
             The description of the BotCommand. By default, the function's docstring is used.
         cmnd_type : int
             The type of the command.
-            - if ``cmnd_type = 0``, the command is triggered on an event.
-            - if ``cmnd_type = 1``, the command is a named command.
-            - if ``cmnd_type = 2``, the command is a routine automatically triggered.
+            * if ``cmnd_type = 0``, the command is triggered on an event.
+            * if ``cmnd_type = 1``, the command is a named command.
+            * if ``cmnd_type = 2``, the command is a routine automatically triggered.
         """
         self.name = name
         self.func = func

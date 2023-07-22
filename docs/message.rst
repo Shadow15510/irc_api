@@ -4,6 +4,6 @@
 Message
 -------
 .. automodule:: irc_api.message
-    :members:
-    :undoc-members:
-    :show-inheritance:
+    :ignore-module-all:
+    
+    .. autoclass:: Message

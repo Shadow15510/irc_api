@@ -4,6 +4,6 @@
 History
 -------
 .. automodule:: irc_api.history
-    :members:
-    :undoc-members:
-    :show-inheritance:
+	:ignore-module-all:
+	
+	.. autoclass:: History

@@ -4,7 +4,7 @@
 IRC
 ---
 .. automodule:: irc_api.irc
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   	:ignore-module-all:
+   	
+   	.. autoclass:: IRC
 

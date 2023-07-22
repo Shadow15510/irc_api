@@ -21,7 +21,17 @@ class IRC:
         The IRC's socket.
     inbox : Queue, private
         Queue of the incomming messages.
-    handler : Thread, private 
+    handler : Thread, private
+
+    Methods
+    -------
+    .. automethod:: __init__
+    .. automethod:: connection
+    .. automethod:: join
+    .. automethod:: receive
+    .. automethod:: send
+    .. automethod:: waitfor
+
     """
     def __init__(self, host: str, port: int):
         """Initialize an IRC wrapper.
