@@ -32,6 +32,13 @@ class Bot:
     threads : list, public
         A list of threads for the commands with ``@api.every``.
 
+    Methods
+    -------
+    .. automethod:: __init__
+    .. automethod:: start
+    .. automethod:: send
+    .. automethod:: add_command
+
     Examples
     --------
     Assuming the module was imported as follow: ``from irc_api import api``
