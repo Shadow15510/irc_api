@@ -1,10 +1,6 @@
 """
 Defines the decorators for bot commands.
 
-Functions
----------
-.. autofunction:: auto_help
-
 Decorators
 ----------
 .. autodecorator:: command
