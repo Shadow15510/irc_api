@@ -1,4 +1,18 @@
-"""Defines the decorators for bot commands."""
+"""
+Defines the decorators for bot commands.
+
+Functions
+---------
+.. autofunction:: auto_help
+
+Decorators
+----------
+.. autodecorator:: command
+.. autodecorator:: channel
+.. autodecorator:: every
+.. autodecorator:: on
+.. autodecorator:: user
+"""
 from irc_api.bot import BotCommand
 
 def command(name: str, alias: tuple=(), desc: str=""):

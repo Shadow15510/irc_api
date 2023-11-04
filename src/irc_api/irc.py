@@ -1,4 +1,10 @@
-"""Manage the IRC layer."""
+"""
+Manage the IRC layer.
+
+Classes
+-------
+.. autoclass:: IRC
+"""
 
 import logging
 import socket

@@ -1,4 +1,10 @@
-"""Allow to save the messages history."""
+"""
+Allows to save the messages history.
+
+Classes
+-------
+.. autoclass:: History
+"""
 
 class History:
     """A custom queue to have access to the latest messages.

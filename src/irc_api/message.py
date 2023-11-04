@@ -1,4 +1,10 @@
-"""Parse the raw incoming message into a Message instance."""
+"""
+Parse the raw incoming message into a Message instance.
+
+Classes
+-------
+.. autoclass:: Message
+"""
 
 import re
 
